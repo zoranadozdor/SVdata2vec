@@ -25,17 +25,17 @@ pip install -r requirements.txt
 
 #### NTU RGB+D 60 and 120
 
-1.  Download the videos from the official website (https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Postprocess them with provided script: 
+1.  Download the videos from the official [website](https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Postprocess them with provided script: 
 
     ```python
     python process_data/compress_video.py
     ```
     
-2. Download the skeleton annotation files from mmaction (https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md)
+2. Download the skeleton annotation files from [mmaction](https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md)
 
 #### Toyota Smarthome
 
-1.  Download the dataset from the official website (https://project.inria.fr/toyotasmarthome/).
+1.  Download the dataset from the official [website](https://project.inria.fr/toyotasmarthome/).
 
 2.  Create annotations with script: 
 
@@ -45,13 +45,15 @@ pip install -r requirements.txt
     
 #### Extract human bounding boxes
 
-Extract the bounding boxes by 
+Extract the bounding boxes:
+
+```python
+    python process_data/extract_human_bboxes.py
+```
 
 ## Usage
 
-1. Modify data paths in config
-2. Train using provided bash script
-
+To pretrain and finetune modify the data paths in congifs and refer to the provided bash scripts.
 
 
 ## Acknowledgment
