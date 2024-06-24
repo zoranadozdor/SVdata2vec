@@ -5,7 +5,7 @@
 
 This repository includes PyTorch implementation of the paper SVdata2vec: 
 
-![Overview Image](/home/zorana/Documents/SVdata2vec/imgs/overview.png)
+![Overview Image](./imgs/overview.png)
 
 ## Abstract
 
