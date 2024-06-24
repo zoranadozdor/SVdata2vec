@@ -28,7 +28,7 @@ Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toy
     1.  Download the videos from the official website (https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Postprocess them with provided script: 
 
     ```python
-        python process_data/compress_video.py
+    python process_data/compress_video.py
     ```
     
     2. Download the skeleton annotation files from mmaction (https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md)
@@ -40,9 +40,8 @@ Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toy
     2.  Create annotations with script: 
 
     ```python
-        python process_data/smarthome_gendata.py
+    python process_data/smarthome_gendata.py
     ```
-
     
 #### Extract human bounding boxes
 
@@ -57,7 +56,7 @@ Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toy
 
 ## Acknowledgment
 
-This code is based on MAMP[Link Text](https://github.com/maoyunyao/MAMP), mmaction2[Link Text](https://github.com/open-mmlab/mmaction2/tree/main) and data2vec[Link Text](https://github.com/arxyzan/data2vec-pytorch). 
+This code is based on [MAMP](https://github.com/maoyunyao/MAMP), [mmaction2](https://github.com/open-mmlab/mmaction2/tree/main) and [data2vec](https://github.com/arxyzan/data2vec-pytorch). 
 
 
 
