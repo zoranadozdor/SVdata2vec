@@ -1,58 +1,63 @@
 # SVdata2vec
 
-# Awesome Computer Vision Project
-
-![Project Banner](path/to/your/banner/image.png)
-
-[![License](https://img.shields.io/github/license/yourusername/your-repo)](LICENSE)
-[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/downloads/release/python-370/)
-[![Issues](https://img.shields.io/github/issues/yourusername/your-repo)](https://github.com/yourusername/your-repo/issues)
-[![Stars](https://img.shields.io/github/stars/yourusername/your-repo)](https://github.com/yourusername/your-repo/stargazers)
 
 ## Overview
 
-Welcome to the Awesome Computer Vision Project! This project is an implementation of cutting-edge computer vision techniques for [your application]. It aims to [briefly describe the problem it solves].
+This repository includes PyTorch implementation of the paper SVdata2vec: 
 
-![Overview Image](path/to/overview-image.png)
+![Overview Image](/home/zorana/Documents/SVdata2vec/imgs/overview.png)
 
-## Installation
+## Abstract
 
-### Prerequisites
+Recent advancements in action recognition have leveraged both skeleton and video modalities to achieve state-of-the-art performance. However, these methods often resort to late fusion, resulting in complex designs due to the challenges of early fusion, which tends to underutilize the strengths of each modality. Additionally, self-supervised learning approaches utilizing both modalities remain underexplored.
+In this paper, we introduce a novel self-supervised framework for learning from skeleton and video data. Our approach, SV-data2vec, employs a student-teacher architecture, where the teacher network generates contextualized targets based on skeleton data. The student network then performs a masked prediction task using unmasked skeleton-visual data. Remarkably, after pretraining with both modalities, our method allows for fine-tuning with RGB data alone, achieving results on par with multimodal approaches by effectively learning video representations through skeleton data guidance.
+Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toyota Smarthome confirm that our method outperforms existing RGB based state-of-the-art techniques.
 
-- Python 3.7+
-- [List any other prerequisites]
+## Install the required packages
 
-### Steps
-
-1. **Clone the repository**
-    ```bash
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
-    ```
-
-2. **Create a virtual environment**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate   # On Windows use `venv\Scripts\activate`
-    ```
-
-3. **Install the required packages**
     ```bash
     pip install -r requirements.txt
     ```
 
-4. **Additional setup steps (if any)**
-    ```bash
-    # Example: Download pretrained models
-    wget http://example.com/pretrained-model.zip
-    unzip pretrained-model.zip -d models/
+## Prepare datasets
+
+### Download datasets.
+
+#### NTU RGB+D 60 and 120
+
+    1.  Download the videos from the official website (https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Postprocess them with provided script: 
+
+    ```python
+        python process_data/compress_video.py
     ```
+    
+    2. Download the skeleton annotation files from mmaction (https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md)
+
+#### Toyota Smarthome
+
+    1.  Download the dataset from the official website (https://project.inria.fr/toyotasmarthome/).
+
+    2.  Create annotations with script: 
+
+    ```python
+        python process_data/smarthome_gendata.py
+    ```
+
+    
+#### Extract human bounding boxes
+
+    Extract the bounding boxes by 
 
 ## Usage
 
-Here are instructions and examples on how to use your project.
+    1. Modify data paths in config
+    2. Train using provided bash script
 
-### Running the main script
 
-```python
-python main.py --input path/to/input --output path/to/output
+
+## Acknowledgment
+
+This code is based on MAMP[Link Text](https://github.com/maoyunyao/MAMP), mmaction2[Link Text](https://github.com/open-mmlab/mmaction2/tree/main) and data2vec[Link Text](https://github.com/arxyzan/data2vec-pytorch). 
+
+
+
