@@ -15,9 +15,9 @@ Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toy
 
 ## Install the required packages
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ## Prepare datasets
 
