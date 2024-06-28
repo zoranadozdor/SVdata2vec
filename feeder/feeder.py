@@ -9,7 +9,7 @@ import copy
 
 class Feeder(Dataset):
     def __init__(self, ann_file='', data_prefix='', split='', test_mode=False, num_classes=None, 
-                 start_index=1, modality="RGB", pipeline=None, multimodal=False):
+                 start_index=1, modality="RGB", pipeline=None, multimodal=False, memcached=False, dataset="ntu"):
         """
 
         """
@@ -22,7 +22,9 @@ class Feeder(Dataset):
         self.start_index = start_index
         self.modality = modality
         self.cli = None
+        self.memcached = memcached
         self.multimodal=multimodal
+        self.dataset=dataset
 
         self.pipeline = Compose(pipeline)
 

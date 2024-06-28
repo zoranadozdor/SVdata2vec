@@ -243,7 +243,7 @@ class Transformer(nn.Module):
                  num_layers_for_target=8, ema_decay=0.9999, ema_end_decay=1, ema_anneal_end_step=100000, 
                  instance_norm_target_layer=False, batch_norm_target_layer=False,
                  layer_norm_target_layer=False, layer_norm_targets=False, 
-                 instance_norm_targets=False, skip_ema=False, block_norm_first=True):
+                 instance_norm_targets=False, skip_ema=False, block_norm_first=True, target_ffn=False):
 
         super().__init__()
         
@@ -327,10 +327,6 @@ class Transformer(nn.Module):
             self.ema_end_decay=ema_end_decay
             self.ema_anneal_end_step=ema_anneal_end_step
             self.num_updates=0
-            self.pav_start=pav_start
-            self.pav_end=pav_end
-            self.pav_end_step=pav_end_step
-            self.pav=pav_start
             self.ema=self.make_ema_teacher(self.ema_decay)
 
         # --------------------------------------------------------------------------
@@ -366,8 +362,7 @@ class Transformer(nn.Module):
         model_copy=Transformer(dim_feat=self.dim_feat, depth=self.depth, num_heads=self.num_heads, 
                                mlp_ratio=self.mlp_ratio,qkv_bias=self.qkv_bias, qk_scale=self.qk_scale, 
                                drop_rate=self.drop_rate, attn_drop_rate=self.attn_drop_rate,
-                               drop_path_rate=self.drop_path_rate, norm_layer=self.norm_layer, 
-                               norm_skes_loss=self.norm_skes_loss, skip_ema=True) 
+                               drop_path_rate=self.drop_path_rate, norm_layer=self.norm_layer,skip_ema=True) 
         
         model_copy = model_copy.blocks
         for p_s, p_t in zip(self.blocks.parameters(), model_copy.parameters()):
@@ -681,27 +676,6 @@ class Transformer(nn.Module):
             
         self.num_updates = num_updates
     
-    def update_pav(self,num_updates):
-
-        if ((self.num_updates == 0 and num_updates > 1)
-            or self.num_updates >= num_updates
-        ):
-            pass
-        elif self.training:
-            pav_weight_decay = None
-            if self.pav_start != self.pav_end:
-                if num_updates >= self.pav_end_step:
-                    decay = self.pav_end
-                else:
-                    decay = self.get_annealed_rate(
-                        self.pav_start,
-                        self.pav_end,
-                        num_updates,
-                        self.pav_end_step,
-                    )
-                self.pav=decay
-            
-        self.num_updates = num_updates
 
     def forward(self, x, x_skele, mask_ratio=0.80, motion_stride=1, motion_aware_tau=0.75, **kwargs):
         N, I, C, T, H, W = x.shape

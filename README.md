@@ -18,6 +18,12 @@ Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toy
 ```bash
 pip install -r requirements.txt
 ```
+## Instal mmcv and mmaction with mim
+
+```bash
+mim install mmcv-full
+mim install mmaction2
+```
 
 ## Prepare datasets
 
@@ -43,7 +49,7 @@ pip install -r requirements.txt
     python process_data/smarthome_gendata.py
     ```
     
-#### Extract human bounding boxes
+### Extract human bounding boxes
 
 Extract the bounding boxes:
 

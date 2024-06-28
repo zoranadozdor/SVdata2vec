@@ -2,8 +2,9 @@ import numpy as np
 from torch.nn.modules.utils import _pair
 
 from .loading import DecordDecode, DecordInit
-from .pose_related import PoseDecode
 from .sampling import UniformSampleFrames
+from .pose_related import PoseDecode
+
 
 from .builder import PIPELINES
 import matplotlib.pyplot as plt
