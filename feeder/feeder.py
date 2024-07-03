@@ -89,6 +89,12 @@ class Feeder(Dataset):
         results['modality'] = self.modality
         results['start_index'] = self.start_index
         results['test_mode'] = self.test_mode
+        if(self.dataset=="ntu"):
+            results['img_shape'] = (1080, 1920)
+        if(self.multimodal==True): 
+            results['multimodal'] = True
+        else:
+            results['multimodal'] = False
 
         return self.pipeline(results)
 
@@ -123,6 +129,12 @@ class Feeder(Dataset):
         results['modality'] = self.modality
         results['start_index'] = self.start_index
         results['test_mode'] = self.test_mode
+        if(self.dataset=="ntu"):
+            results['img_shape'] = (1080, 1920)
+        if(self.multimodal==True): 
+            results['multimodal'] = True
+        else:
+            results['multimodal'] = False
 
         return self.pipeline(results)
 
@@ -146,4 +158,4 @@ class Feeder(Dataset):
                 return (s['imgs'],s['keypoint'], s['label'])
         
         else:
-            return ((s['imgs'], s['label']))
+            return ((s['imgs'], 0, s['label']))

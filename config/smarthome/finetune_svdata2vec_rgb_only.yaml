@@ -3,10 +3,10 @@ feeder: feeder.feeder.Feeder
 train_feeder_args:
   multimodal: False
   dataset: "smarthome"
-  data_prefix : /home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
+  data_prefix : SVDATA2VEC/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
   split: 'xsub_train'
   test_mode: False
-  ann_file : '/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/smarthome_2d_bboxes.pkl' #path to annotation file
+  ann_file : 'SVDATA2VEC/data/smarthome/smarthome_2d.pkl' #path to annotation file
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -66,10 +66,10 @@ train_feeder_args:
 val_feeder_args:
   multimodal: False
   dataset: "smarthome"
-  data_prefix : /home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
+  data_prefix : SVDATA2VEC/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
   split: 'xsub_test'
   test_mode: True
-  ann_file : '/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/smarthome_2d_bboxes.pkl' #path to annotation file
+  ann_file : 'SVDATA2VEC/data/smarthome/smarthome_2d.pkl' #path to annotation file
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 

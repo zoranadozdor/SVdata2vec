@@ -44,7 +44,6 @@ class MMDecode(DecordInit, DecordDecode, PoseDecode):
         self.io_backend = io_backend
         self.kwargs = kwargs
         self.file_client = None
-        self.skeleton_data_prefix="/home/zorana/Downloads/65cc5169-dc61-4807-ac0d-a52923b1d04c/raw/k400_kpfiles_2d/kpfiles"
 
     def __call__(self, results):
         for mod in results['modality']:
@@ -54,17 +53,16 @@ class MMDecode(DecordInit, DecordDecode, PoseDecode):
             if mod == 'RGB':
                 if 'filename' not in results:
                     results['filename'] = results['frame_dir'] + '.mp4'
-                print(results['frame_dir'])
                 video_reader = self._get_videoreader(results['filename'])
                 imgs = self._decord_load_frames(video_reader, frame_inds)
                 del video_reader
                 results['imgs'] = imgs
             elif mod == 'Pose':
-                if 'keypoint' not in results and 'raw_file' in results:
-                    skele= osp.join(self.skeleton_data_prefix, results['frame_dir'].split("/")[-1])+".pkl"
-                    with open(skele, 'rb') as f:
-                        kps = pickle.load(f)
-                    results['keypoint']=np.expand_dims(kps['keypoint'][:,:,:2],axis=0)
+                #if 'keypoint' not in results and 'raw_file' in results:
+                #    skele= osp.join(self.skeleton_data_prefix, results['frame_dir'].split("/")[-1])+".pkl"
+                #    with open(skele, 'rb') as f:
+                #        kps = pickle.load(f)
+                #    results['keypoint']=np.expand_dims(kps['keypoint'][:,:,:2],axis=0)
                 
                 assert 'keypoint' in results
                 if 'keypoint_score' not in results:
@@ -111,40 +109,50 @@ class MMCompact:
 
     
     def _get_box_bb(self,bboxes, img_shape):
+
         h, w = img_shape
         global_min_x, global_min_y, global_max_x, global_max_y = float('inf'), float('inf'), float('-inf'), float('-inf')
 
         for bb in bboxes:
-            # Take the bounding boxes of the top one or two people
             top_people_boxes = [bb]
 
             # Update global min and max coordinates
             for box in top_people_boxes:
                 min_x, min_y, max_x, max_y, _ = box
-                global_min_x = min(global_min_x, min_x)
-                global_min_y = min(global_min_y, min_y)
-                global_max_x = max(global_max_x, max_x)
-                global_max_y = max(global_max_y, max_y)
+                if(min_x!=0):
+                    global_min_x = min(global_min_x, min_x)
+                if(min_y!=0):
+                    global_min_y = min(global_min_y, min_y)
+                if(max_x!=0):
+                    global_max_x = max(global_max_x, max_x)
+                if(max_y!=0):
+                    global_max_y = max(global_max_y, max_y)
 
-        # Return the coordinates that encompass all detected people
-        # Calculate the width and height of the bounding box
-        width = global_max_x - global_min_x
-        height = global_max_y - global_min_y
+        min_x,max_x, min_y, max_y= global_min_x, global_max_x, global_min_y, global_max_y
 
         # The compact area is too small
-        if global_max_x - global_min_x < self.threshold or global_max_y - global_min_y < self.threshold:
+        if max_x - min_x < self.threshold or max_y - min_y < self.threshold or (min_x==float('inf') or max_x==float('-inf') or min_y==float('inf') or max_y==float('-inf')):
             return (0, 0, w, h)
 
-        # Add a 20% margin around the bounding box
-        margin_x = 0.2 * width
-        margin_y = 0.2 * height
+        center = ((max_x + min_x) / 2, (max_y + min_y) / 2)
+        half_width = (max_x - min_x) / 2 * (1 + self.padding)
+        half_height = (max_y - min_y) / 2 * (1 + self.padding)
 
-        # Adjust the final coordinates
-        final_min_x = max(0., global_min_x - margin_x)
-        final_min_y = max(0., global_min_y - margin_y)
-        final_max_x = global_max_x + margin_x
-        final_max_y = global_max_y + margin_y
-        return int(final_min_x), int(final_min_y), int(final_max_x), int(final_max_y)
+        if self.hw_ratio is not None:
+            half_height = max(self.hw_ratio[0] * half_width, half_height)
+            half_width = max(1 / self.hw_ratio[1] * half_height, half_width)
+
+        min_x, max_x = center[0] - half_width, center[0] + half_width
+        min_y, max_y = center[1] - half_height, center[1] + half_height
+
+        # hot update
+        if not self.allow_imgpad:
+            min_x, min_y = int(max(0, min_x)), int(max(0, min_y))
+            max_x, max_y = int(min(w, max_x)), int(min(h, max_y))
+        else:
+            min_x, min_y = int(min_x), int(min_y)
+            max_x, max_y = int(max_x), int(max_y)
+        return (min_x, min_y, max_x, max_y)
        
     def _get_box(self, keypoint, img_shape):
         # will return x1, y1, x2, y2
@@ -216,7 +224,10 @@ class MMCompact:
         # Make NaN zero
         kp[np.isnan(kp)] = 0.
 
-        min_x, min_y, max_x, max_y = self._get_box_bb(results['bboxes'], img_shape)
+        if(results['multimodal']):
+            min_x, min_y, max_x, max_y = self._get_box(kp, img_shape) #if we use skeleton extract bboxes from skeleton
+        else:
+            min_x, min_y, max_x, max_y = self._get_box_bb(results['bboxes'], img_shape) #else use preestimated bboxes
 
         kp_x, kp_y = kp[..., 0], kp[..., 1]
         kp_x[kp_x != 0] -= min_x

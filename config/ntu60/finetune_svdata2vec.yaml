@@ -3,10 +3,10 @@ feeder: feeder.feeder.Feeder
 train_feeder_args:
   multimodal: True
   dataset: "ntu"
-  data_prefix : 'data/ntu/RGB_videos/nturgb+d_videos_c'  
+  data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
   split: 'xsub_train'
   test_mode: False
-  ann_file : '/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/ntu/ntu60_hrnet.pkl'
+  ann_file : 'SVDATA2VEC/data/ntu/ntu60_hrnet.pkl'
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -71,10 +71,10 @@ train_feeder_args:
 val_feeder_args:
   multimodal: True
   dataset: "ntu"
-  data_prefix : 'data/ntu/RGB_videos/nturgb+d_videos_c'  
+  data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
   split: 'xsub_val'
   test_mode: False
-  ann_file : 'data/ntu/ntu60_hrnet.pkl'
+  ann_file : 'SVDATA2VEC/data/ntu/ntu60_hrnet.pkl'
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -145,7 +145,7 @@ model_args:
 # training
 epochs: 100
 warmup_epochs: 5
-batch_size: 2
+batch_size: 32
 lr: 5e-4
 layer_decay: 0.8
 smoothing: 0.1

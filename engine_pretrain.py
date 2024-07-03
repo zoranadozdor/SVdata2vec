@@ -55,14 +55,10 @@ def train_one_epoch(model: torch.nn.Module,
         with torch.cuda.amp.autocast(enabled=args.enable_amp):
             if(args.train_feeder_args['multimodal']):
                 loss, _, _ = model(sample,kps, 
-                               mask_ratio=args.mask_ratio,
-                               motion_stride=args.motion_stride,
-                               motion_aware_tau=args.motion_aware_tau)
+                               mask_ratio=args.mask_ratio)
             else:
                 loss, _, _ = model(sample, 
-                               mask_ratio=args.mask_ratio,
-                               motion_stride=args.motion_stride,
-                               motion_aware_tau=args.motion_aware_tau)
+                               mask_ratio=args.mask_ratio)
 
         loss_value = loss.item()
 

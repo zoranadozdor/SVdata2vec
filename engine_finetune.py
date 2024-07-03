@@ -49,14 +49,14 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         samples = samples.float().to(device, non_blocking=True)
         targets = targets.long().to(device, non_blocking=True)
 
-        if(args.train_feeder_args['multimodal'] or args.train_feeder_args['heatmap']):
+        if(args.train_feeder_args['multimodal'] ):
             kps = kps.float().to(device, non_blocking=True)
 
         if mixup_fn is not None:
             samples, targets = mixup_fn(samples, targets)
 
         with torch.cuda.amp.autocast(enabled=args.enable_amp):
-            if(args.train_feeder_args['multimodal'] or args.train_feeder_args['heatmap']):
+            if(args.train_feeder_args['multimodal']):
                 outputs = model(samples,kps)
             else:
                 outputs = model(samples)

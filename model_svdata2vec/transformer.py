@@ -243,7 +243,7 @@ class Transformer(nn.Module):
                  num_layers_for_target=8, ema_decay=0.9999, ema_end_decay=1, ema_anneal_end_step=100000, 
                  instance_norm_target_layer=False, batch_norm_target_layer=False,
                  layer_norm_target_layer=False, layer_norm_targets=False, 
-                 instance_norm_targets=False, skip_ema=False, block_norm_first=True, target_ffn=False):
+                 instance_norm_targets=False, skip_ema=False, block_norm_first=True, target_ffn=False, target_both=False):
 
         super().__init__()
         
@@ -262,6 +262,8 @@ class Transformer(nn.Module):
         self.num_joints = num_joints
         self.patch_size = patch_size
         self.t_patch_size = t_patch_size
+        self.target_both = target_both
+        self.target_ffn = target_ffn
 
         self.ema=None
 
@@ -362,7 +364,7 @@ class Transformer(nn.Module):
         model_copy=Transformer(dim_feat=self.dim_feat, depth=self.depth, num_heads=self.num_heads, 
                                mlp_ratio=self.mlp_ratio,qkv_bias=self.qkv_bias, qk_scale=self.qk_scale, 
                                drop_rate=self.drop_rate, attn_drop_rate=self.attn_drop_rate,
-                               drop_path_rate=self.drop_path_rate, norm_layer=self.norm_layer,skip_ema=True) 
+                               drop_path_rate=self.drop_path_rate, norm_layer=self.norm_layer,skip_ema=True, target_both=self.target_both) 
         
         model_copy = model_copy.blocks
         for p_s, p_t in zip(self.blocks.parameters(), model_copy.parameters()):
@@ -455,7 +457,7 @@ class Transformer(nn.Module):
         x_skele = x_skele + self.temp_embed[:, :TP, :]
 
         #random mask 70% of video
-        x_vid, mask_vid, ids_restore_vid, ids_keep_video =self.random_masking(x_vid, 0.6)
+        x_vid, mask_vid, ids_restore_vid, ids_keep_video =self.random_masking(x_vid, 0.66)
 
         #mask the same 70% tokens in skeleton
         N, L, D = x_skele.shape  # batch, length, dim

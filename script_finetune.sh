@@ -2,7 +2,7 @@ export OMP_NUM_THREADS=1
 export CUDA_VISIBLE_DEVICES=6,7
 
 # NTU-60 xsub finetune rgb only
-python -m torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_finetune.py \
+python torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_finetune.py \
 --config ./config/ntu60/finetune_svdata2vec_rgb_only.yaml \
 --output_dir ./output_dir/ntu60/finetune_svdata2vec_rgb_only_xsub \
 --log_dir ./output_dir/ntu60/finetune_svdata2vec_rgb_only_xsub \
@@ -12,7 +12,7 @@ python -m torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_f
 --min_lr 1e-5
 
 # NTU-60 xsub finetune both modalities
-python -m torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_finetune.py \
+python torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_finetune.py \
 --config ./config/ntu60/finetune_svdata2vec.yaml \
 --output_dir ./output_dir/ntu60/finetune_svdata2vec_xsub \
 --log_dir ./output_dir/ntu60/finetune_svdata2vec_xsub \

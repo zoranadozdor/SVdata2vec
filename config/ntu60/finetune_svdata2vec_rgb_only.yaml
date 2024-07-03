@@ -3,10 +3,10 @@ feeder: feeder.feeder.Feeder
 train_feeder_args:
   multimodal: False
   dataset: "ntu"
-  data_prefix : 'data/ntu/RGB_videos/nturgb+d_videos_c'  
+  data_prefix : SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c
   split: 'xsub_train'
   test_mode: False
-  ann_file : 'data/ntu/ntu60_hrnet.pkl'
+  ann_file : SVDATA2VEC/data/ntu/ntu60_hrnet.pkl
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -35,7 +35,16 @@ train_feeder_args:
         - 224
       keep_ratio: false
     
-    - type: RGBToGrayscale
+    - type: Normalize
+      mean:
+        - 123.675
+        - 116.28
+        - 103.53
+      std:
+        - 58.395
+        - 57.12
+        - 57.375
+      to_bgr: false
 
     - type: Flip
       flip_ratio: 0.5
@@ -47,24 +56,22 @@ train_feeder_args:
       keys:
         - imgs
         - label
-        - frame_dir
       meta_keys: []
 
     - type: ToTensor
       keys:
         - imgs
         - label
-        - frame_dir
 
 
 # data
 val_feeder_args:
   multimodal: False
   dataset: "ntu"
-  data_prefix : 'data/ntu/RGB_videos/nturgb+d_videos_c'  
+  data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
   split: 'xsub_val'
   test_mode: True
-  ann_file : 'data/ntu/ntu60_hrnet.pkl'
+  ann_file : SVDATA2VEC/data/ntu/ntu60_hrnet.pkl
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -82,7 +89,16 @@ val_feeder_args:
         - 224
       keep_ratio: false
     
-    - type: RGBToGrayscale
+    - type: Normalize
+      mean:
+        - 123.675
+        - 116.28
+        - 103.53
+      std:
+        - 58.395
+        - 57.12
+        - 57.375
+      to_bgr: false
 
     - type: FormatShape
       input_format: NCTHW
@@ -91,7 +107,6 @@ val_feeder_args:
       keys:
         - imgs
         - label
-        - frame_dir
 
       meta_keys: []
 
@@ -125,7 +140,7 @@ model_args:
 # training
 epochs: 100
 warmup_epochs: 5
-batch_size: 1
+batch_size: 2
 lr: 5e-4
 layer_decay: 0.8
 smoothing: 0.1

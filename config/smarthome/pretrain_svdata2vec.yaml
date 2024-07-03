@@ -3,10 +3,10 @@ feeder: feeder.feeder.Feeder
 train_feeder_args:
   multimodal: True
   dataset: "smarthome"
-  data_prefix : /home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
+  data_prefix : SVDATA2VEC/data/smarthome/toyota_smarthome_mp4/mp4 #path to video files
   split: 'xsub_train'
   test_mode: False
-  ann_file : /home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/smarthome_2d_bboxes_a.pkl #path to annotation file
+  ann_file : SVDATA2VEC/data/smarthome/smarthome_2d.pkl #path to annotation file
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -103,7 +103,7 @@ model_args:
 # training 
 epochs: 400  
 warmup_epochs: 20
-batch_size: 1
+batch_size: 32
 lr: 1e-3
 min_lr: 5e-4
 weight_decay: 0.05
