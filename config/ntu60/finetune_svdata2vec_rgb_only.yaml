@@ -6,7 +6,7 @@ train_feeder_args:
   data_prefix : SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c
   split: 'xsub_train'
   test_mode: False
-  ann_file : SVDATA2VEC/data/ntu/ntu60_hrnet.pkl
+  ann_file : SVDATA2VEC/data/ntu/ntu60_2d_bboxes.pkl
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 
@@ -71,7 +71,7 @@ val_feeder_args:
   data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
   split: 'xsub_val'
   test_mode: True
-  ann_file : SVDATA2VEC/data/ntu/ntu60_hrnet.pkl
+  ann_file : SVDATA2VEC/data/ntu/ntu60_2d_bboxes.pkl
   pipeline: 
     - type: "MMUniformSampleFrames"
       clip_len: 

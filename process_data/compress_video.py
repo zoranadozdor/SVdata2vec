@@ -35,7 +35,7 @@ def compress_nturgbd(name):
     shape = (1920, 1080)
     compress(src, dest, shape)
 
-os.makedirs('/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/ntu/RGB_videos/nturgb+d_videos_c', exist_ok=True)
-files = ls('/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/ntu/RGB_videos/nturgb+d_rgb', match='.avi')
+os.makedirs('SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c', exist_ok=True)
+files = ls('SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_rgb', match='.avi')
 pool = mp.Pool(32)
 pool.map(compress_nturgbd, files)

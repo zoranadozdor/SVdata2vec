@@ -27,11 +27,9 @@ mim install mmaction2
 
 ## Prepare datasets
 
-### Download datasets.
+### NTU RGB+D 60 and 120
 
-#### NTU RGB+D 60 and 120
-
-1.  Download the videos from the official [website](https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Postprocess them with provided script: 
+1.  Download the videos from the official [website](https://rose1.ntu.edu.sg/dataset/actionRecognition/) and put them in /data/nturgbd_raw. Compress them with the provided script (adjust paths in script): 
 
     ```python
     python process_data/compress_video.py
@@ -39,11 +37,11 @@ mim install mmaction2
     
 2. Download the skeleton annotation files from [mmaction](https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md)
 
-#### Toyota Smarthome
+### Toyota Smarthome
 
 1.  Download the dataset from the official [website](https://project.inria.fr/toyotasmarthome/).
 
-2.  Create annotations with script: 
+2.  Create annotations for Smarthome in the same format as NTU annotations with script (adjust paths in script): 
 
     ```python
     python process_data/smarthome_gendata.py
@@ -51,7 +49,7 @@ mim install mmaction2
     
 ### Extract human bounding boxes
 
-Extract the bounding boxes:
+Extract the bounding boxes for the desired dataset (if fine-tuning the model with just the RGB modality):
 
 ```python
     python process_data/extract_human_bboxes.py

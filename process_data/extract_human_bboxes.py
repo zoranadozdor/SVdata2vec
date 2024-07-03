@@ -252,9 +252,9 @@ def process_data(x):
 
     return x
 
-with open('/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/smarthome_2d.pkl', 'rb') as f:
+with open('SVDATA2VEC/data/smarthome/smarthome_2d.pkl', 'rb') as f:
     input_anno = pickle.load(f)
-source_path = "/home/zorana/Documents/data2vec_from_MAMP/MAMP/data/smarthome/toyota_smarthome_mp4/mp4/"
+source_path = "SVDATA2VEC/data/smarthome/toyota_smarthome_mp4/mp4/"
 data = process_data(input_anno)
-with open('smarthome_2d_bboxes_aa.pkl', 'wb') as handle:
+with open('smarthome_2d_bboxes.pkl', 'wb') as handle:
     pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
