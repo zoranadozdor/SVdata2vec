@@ -11,7 +11,6 @@
 
 import json
 
-
 def param_groups_lrd(model, weight_decay=0.05, no_weight_decay_list=[], layer_decay=.75):
     """
     Parameter groups for layer-wise lr decay

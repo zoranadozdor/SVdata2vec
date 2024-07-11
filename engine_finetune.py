@@ -146,3 +146,4 @@ def evaluate(data_loader, model, device, args):
           .format(top1=metric_logger.acc1, top5=metric_logger.acc5, losses=metric_logger.loss))
 
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
+    

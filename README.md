@@ -9,9 +9,9 @@ This repository includes PyTorch implementation of the paper SVdata2vec:
 
 ## Abstract
 
-Recent advancements in action recognition have leveraged both skeleton and video modalities to achieve state-of-the-art performance. However, these methods often resort to late fusion, resulting in complex designs due to the challenges of early fusion, which tends to underutilize the strengths of each modality. Additionally, self-supervised learning approaches utilizing both modalities remain underexplored.
-In this paper, we introduce a novel self-supervised framework for learning from skeleton and video data. Our approach, SV-data2vec, employs a student-teacher architecture, where the teacher network generates contextualized targets based on skeleton data. The student network then performs a masked prediction task using unmasked skeleton-visual data. Remarkably, after pretraining with both modalities, our method allows for fine-tuning with RGB data alone, achieving results on par with multimodal approaches by effectively learning video representations through skeleton data guidance.
-Extensive experiments on benchmark datasets NTU RGB+D 60, NTU RGB+D 120, and Toyota Smarthome confirm that our method outperforms existing RGB based state-of-the-art techniques.
+Recent advancements in action recognition leverage both skeleton and video modalities to achieve state-of-the-art performance. However, due to the challenges of early fusion, which tends to underutilize the strengths of each
+modality, existing methods often resort to late fusion, consequently leading to more complex designs. Additionally, self-supervised learning approaches utilizing both modalities remain underexplored. In this paper, we introduce SV-data2vec, a novel self-supervised framework for learning from skeleton and video data. Our approach employs a student-teacher architecture, where the teacher network generates contextualized targets based on skeleton data. The student network performs a masked prediction task using both skeleton and visual data. Remarkably, after pretraining with both modalities, our method allows for fine-tuning with RGB data alone, achieving results on par with multimodal approaches by effectively learning video representations through skeleton data guidance. Extensive experiments on benchmark datasets NTU
+RGB+D 60, NTU RGB+D 120, and Toyota Smarthome confirm that our method outperforms existing RGB based state-of-the-art techniques.
 
 ## Install the required packages
 

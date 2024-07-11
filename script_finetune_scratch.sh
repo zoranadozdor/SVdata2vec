@@ -20,3 +20,4 @@ python torch.distributed.launch --nproc_per_node=2 --master_port 12345 main_fine
 --lr 3e-4 \
 --min_lr 1e-5 \
 --layer_decay 1.0
+

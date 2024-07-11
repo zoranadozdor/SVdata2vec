@@ -455,7 +455,7 @@ class Transformer(nn.Module):
         NM, TP, VP, _ = x_skele.shape
         x_skele = x_skele.reshape(NM, TP * VP, -1)
         x_skele = x_skele + self.temp_embed[:, :TP, :]
-
+        
         #random mask 70% of video
         x_vid, mask_vid, ids_restore_vid, ids_keep_video =self.random_masking(x_vid, 0.66)
 

@@ -89,7 +89,7 @@ class ActionHeadLinprobe(nn.Module):
         feat = feat.mean(dim=[1])
         feat = self.fc(feat)
         return feat
-
+        
 class ActionHeadFinetune(nn.Module):
     def __init__(self, dropout_ratio=0., dim_feat=512, num_classes=60, num_joints=25, hidden_dim=2048):
         super(ActionHeadFinetune, self).__init__()

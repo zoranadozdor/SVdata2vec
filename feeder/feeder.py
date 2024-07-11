@@ -10,9 +10,7 @@ import copy
 class Feeder(Dataset):
     def __init__(self, ann_file='', data_prefix='', split='', test_mode=False, num_classes=None, 
                  start_index=1, modality="RGB", pipeline=None, multimodal=False, memcached=False, dataset="ntu"):
-        """
-
-        """
+    
 
         self.data_prefix = data_prefix
         self.ann_file = ann_file
