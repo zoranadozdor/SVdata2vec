@@ -1,0 +1,145 @@
+# data
+feeder: feeder.feeder.Feeder
+train_feeder_args:
+  multimodal: False
+  dataset: "ntu"
+  data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
+  split: 'xsub_train'
+  test_mode: False
+  ann_file : 'SVDATA2VEC/data/ntu/ntu120_2d_bboxes.pkl'
+  pipeline: 
+    - type: "MMUniformSampleFrames"
+      clip_len: 
+        RGB: 40
+      num_clips: 1
+    - type: "MMDecode"
+    - type: "MMCompact"
+      padding: 0.1
+      hw_ratio: 1.
+      allow_imgpad: True
+
+    - type: Resize
+      scale: !!python/tuple
+        - 256
+        - 256
+      keep_ratio: false
+
+    - type: RandomResizedCrop
+      area_range: !!python/tuple
+        - 0.56
+        - 1.0
+
+    - type: Resize
+      scale: !!python/tuple
+        - 224
+        - 224
+      keep_ratio: false
+    
+    - type: Normalize
+      mean:
+        - 123.675
+        - 116.28
+        - 103.53
+      std:
+        - 58.395
+        - 57.12
+        - 57.375
+      to_bgr: false
+
+    - type: Flip
+      flip_ratio: 0.5
+
+    - type: FormatShape
+      input_format: NCTHW
+
+    - type: Collect
+      keys:
+        - imgs
+        - label
+      meta_keys: []
+
+    - type: ToTensor
+      keys:
+        - imgs
+        - label
+
+
+# data
+val_feeder_args:
+  multimodal: False
+  dataset: "ntu"
+  data_prefix : 'SVDATA2VEC/data/ntu/RGB_videos/nturgb+d_videos_c'  
+  split: 'xsub_val'
+  test_mode: True
+  ann_file : 'SVDATA2VEC/data/ntu/ntu120_2d_bboxes.pkl'
+  pipeline: 
+    - type: "MMUniformSampleFrames"
+      clip_len: 
+        RGB: 40
+      num_clips: 1
+    - type: "MMDecode"
+    - type: "MMCompact"
+      padding: 0.1
+      hw_ratio: 1.
+      allow_imgpad: True
+
+    - type: Resize
+      scale: !!python/tuple
+        - 224
+        - 224
+      keep_ratio: false
+    
+    - type: Normalize
+      mean:
+        - 123.675
+        - 116.28
+        - 103.53
+      std:
+        - 58.395
+        - 57.12
+        - 57.375
+      to_bgr: false
+
+    - type: FormatShape
+      input_format: NCTHW
+
+    - type: Collect
+      keys:
+        - imgs
+        - label
+      meta_keys: []
+
+    - type: ToTensor
+      keys:
+        - imgs
+        - label
+
+
+# model
+model: model.transformer_rgb.Transformer
+model_args:
+  dim_in: 2
+  num_classes: 120
+  dim_feat: 256
+  depth: 8
+  num_heads: 8
+  mlp_ratio: 4
+  num_frames: 40
+  num_joints: 17
+  patch_size: 17
+  t_patch_size: 1
+  qkv_bias: True
+  qk_scale: None
+  drop_rate: 0.
+  attn_drop_rate: 0.
+  drop_path_rate: 0.3
+  block_norm_first: True
+  protocol: finetune
+
+# training
+epochs: 100
+warmup_epochs: 5
+batch_size: 32
+lr: 5e-4
+layer_decay: 0.8
+smoothing: 0.1
